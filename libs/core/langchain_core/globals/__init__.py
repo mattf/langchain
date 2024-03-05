@@ -72,6 +72,12 @@ def get_verbose() -> bool:
             old_verbose = langchain.verbose
     except ImportError:
         old_verbose = False
+    except AttributeError:
+        warnings.warn("WARNING: `import langchain` included a module that does not have "
+                      "the expected `verbose` attribute. You may have a module named "
+                      "langchain masking the langchain-ai/langchain module. Please check "
+                      "for a langchain.py file or langchain/ directory in your PYTHONPATH.")
+        old_verbose = False
 
     global _verbose
     return _verbose or old_verbose
